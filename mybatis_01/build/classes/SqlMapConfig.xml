@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE configuration  
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"  
+"http://mybatis.org/dtd/mybatis-3-config.dtd">  
+
+<configuration>  
+
+ <!-- 
+ 加载数据库文件db.properties 
+<properties resource="db.properties"></properties>  -->
+    
+    <typeAliases >
+    <!-- 定义单个别名 -->
+    	<!-- <typeAlias type="dao.User" alias="user"/> -->
+    	<!-- 批量定义别名  mybatis自动扫描下面的包名，别名自定义为类名，首字母大小写都行   推荐使用-->
+    <package name="dao"/>
+    </typeAliases>
+    
+    
+    
+    <!-- 和spring整合后 environments配置将废除-->
+    <environments default="development">
+        <environment id="development">
+        <!-- 使用jdbc事务管理,事务控制由mybatis管理-->
+            <transactionManager type="JDBC" />
+        <!-- 数据库连接池,由mybatis管理-->
+            <dataSource type="POOLED">
+                <property name="driver" value="com.mysql.jdbc.Driver" />
+                <property name="url" value="jdbc:mysql://localhost:3306/mybatis" />
+                <property name="username" value="root" />
+                <property name="password" value="925925" />
+                
+                
+               <!--  <property name="url" value="${jdbc.url}" />
+                <property name="username" value="${jdbc.user}" />
+                <property name="password" value="${jdbc.password}" />
+                 <property name="driver" value="${jdbc.driver}" /> -->
+                
+            </dataSource>
+        </environment>
+    </environments>
+    <!-- 加载映射文件 -->
+    <mappers>
+    	<mapper resource="dao/User.xml"/>
+    	
+    	<!-- 直接resource 加载指定mapper文件 -->
+		<!-- <mapper resource="usermapper/UserMapper.xml"/>  -->
+    
+    	<!-- 通过class 加载  在使用maapper代理的情况下 mapper.xml与接口名一致  且在同一目录下  就行
+    	<mapper class="usermapper.UserMapper"/>    -->
+    	
+    	<!-- 批量加载  mapper name=接口的包名  前提规范与上面class 加载一致    这种方法推荐使用-->
+    	<package name="usermapper"/>
+    </mappers>
+    
+    
+    
+ </configuration>

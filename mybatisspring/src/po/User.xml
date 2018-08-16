@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper  
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+
+<mapper namespace="test">
+
+	<!-- 根据id简单查询 -->
+	<select id="findUserById" parameterType="int" resultType="po.User">
+	<!-- #{id} 占位符 参数为简单类型的恶化，#{}中的参数可以任意 -->	
+		select * from user where id=#{id}
+	</select>
+	
+</mapper>
+
+
+
+
+
+
+
+<!-- 
+
+<mapper namespace="com.qbd.mapper.StudentMappers">  
+    <select id="findbyid" parameterType="Integer" resultMap="StudentResult">  
+        select *from student where id=#{id}  
+    </select>  
+      
+    <select id="findbygradeid" parameterType="Integer" resultMap="StudentResult">  
+        select *from student where gid=#{gid}  
+    </select>  
+      
+    <resultMap type="Student" id="StudentResult">  
+        <id property="id" column="id"/>  
+        <result property="name" column="name"/>  
+        <result property="age" column="age"/>  
+        <association property="address" column="addid" select="com.qbd.mapper.AddressMappers.findbyid">      
+        </association>  
+        <association property="grade" column="gid" select="com.qbd.mapper.GradeMappers.findbyid">      
+        </association>  
+    </resultMap>  
+</mapper>  
+
+
+
+ -->
+
+
+
+
+
+<!-- 
+  
+<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >  
+    select   
+  </select>  
+  
+插入语句  
+<insert id="insert" parameterType="pojo.OrderTable" >  
+ insert into ordertable (order_id, cid, address,   
+      create_date, orderitem_id)  
+    values (#{orderId,jdbcType=VARCHAR}, #{cid,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR},   
+      #{createDate,jdbcType=TIMESTAMP}, #{orderitemId,jdbcType=VARCHAR})  
+  </insert>  
+  
+删除语句  
+<delete id="deleteByPrimaryKey" parameterType="java.lang.String" >  
+delete from ordertable  
+    where order_id = #{orderId,jdbcType=VARCHAR}  
+</delete>  
+  
+修改语句  
+ <update id="updateByPrimaryKey" parameterType="pojo.OrderTable" >  
+  update ordertable  
+    set cid = #{cid,jdbcType=VARCHAR},  
+      address = #{address,jdbcType=VARCHAR},  
+      create_date = #{createDate,jdbcType=TIMESTAMP},  
+      orderitem_id = #{orderitemId,jdbcType=VARCHAR}  
+    where order_id = #{orderId,jdbcType=VARCHAR}  
+  </update>   -->

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper  
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+
+<!-- 如果使用mapper代理的话，此处的命名空间名称与 mapper接口全路径一致 -->
+<mapper namespace="mapper.OrdersCustomMapper">
+
+
+<!-- 开启本mapper  命名空间下的二级缓存   默认开启  并且相应的pojo类要实现序列化，就可以存储到磁盘中-->
+<!--type: chache接口的具体实现类 ，不指定的话，则实现默认的缓存接口实现类：PertetualCache 
+ ehcache-mybatis.jar包下有一个实现类，EhcacheCache-->
+<cache type="org.mybatis.caches.ehcache.EhcacheCache" ></cache>
+
+
+<!-- 查询订单及其用户 及其详细信息   使用extends 订单及其用户-->
+	<resultMap type="dao.Orders" id="OrdersAndOrderDetail" extends="OrderUserMap">
+		
+		<!-- 订单明细   多条记录映射到集合对象中-->
+		<collection property="orderdetail" ofType="dao.Orderdetail">
+			<id column="orderdetail_id" property="id"/>
+
+			<result column="items_id" property="items_id"/>
+			<result column="items_num" property="items_num"/>
+
+		
+		</collection>
+
+	</resultMap>
+	<select id="findOrdersAndOrderDetail" resultMap="OrdersAndOrderDetail">
+select 
+orders.*,user.name,user.age,orderdetail.id orderdetail_id,orderdetail.items_id,orderdetail.items_num
+from 
+orders,user,orderdetail
+where orders.user_id=user.id and orderdetail.orders_id=orders.id;
+	</select>
+
+
+<!-- //查询订单关联查询用户信息 使用resultmap 作为结果接 -->
+	<select id="findOrdersUser" resultType="pojo.OrdersCustom">
+	
+	select orders.*,user.name,user.age from orders,user where orders.user_id=user.id
+	</select>
+	
+	<!-- //查询订单关联查询用户信息 使用resultmap 作为结果接 -->
+	<resultMap type="dao.Orders" id="OrderUserMap">
+		<!-- 配置orders信息 -->
+		<id column="id" property="id"/>
+		<result column="users_id" property="users_id"/>
+		<result column="createtime" property="createtime"/>
+		<result column="number" property="number"/>
+		<!-- 配置orders信息 -->
+		<!-- 将orders里的关联user属性 -->
+		<association property="user" javaType="dao.User">
+			<!-- 将orders的user_id属性映射到user的id属性 -->
+			<id column="user_id" property="id"/>
+			<result column="name" property="name"/>
+			<result column="age" property="age"/>
+		</association>
+	</resultMap>
+		
+		<select id="findOrdersUserResultMap" resultMap="OrderUserMap">
+	
+	select orders.*,user.name,user.age from orders,user where orders.user_id=user.id
+	</select>
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
